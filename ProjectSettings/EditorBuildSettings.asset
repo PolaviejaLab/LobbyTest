@@ -10,6 +10,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/SampleScenes/Scenes/NetworkSpaceship.unity
   - enabled: 1
-    path: Assets/SampleScenes/Scenes/NetworkDiscovery.unity
+    path: Assets/Lobby/Scenes/NetworkDiscovery.unity
   - enabled: 1
-    path: Assets/SampleScenes/Scenes/NetworkExperiment.unity
+    path: Assets/Lobby/Scenes/NetworkExperiment.unity

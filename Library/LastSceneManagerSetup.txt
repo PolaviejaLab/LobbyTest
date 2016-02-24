@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/SampleScenes/Scenes/NetworkDiscovery.unity
+- path: Assets/Lobby/Scenes/NetworkDiscovery.unity
   isLoaded: 1
   isActive: 1
