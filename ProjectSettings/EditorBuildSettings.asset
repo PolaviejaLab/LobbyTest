@@ -5,11 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/SampleScenes/Scenes/NetworkLobby.unity
-  - enabled: 0
-    path: Assets/SampleScenes/Scenes/NetworkSpaceship.unity
   - enabled: 1
-    path: Assets/Lobby/Scenes/NetworkDiscovery.unity
+    path: Assets/Lobby/Scenes/NetworkSetup.unity
+  - enabled: 1
+    path: Assets/Lobby/Scenes/NetworkLobby.unity
   - enabled: 1
     path: Assets/Lobby/Scenes/NetworkExperiment.unity

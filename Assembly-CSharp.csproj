@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Lobby\Scripts\ListBox.cs" />
      <Compile Include="Assets\Lobby\Scripts\Network.cs" />
+     <Compile Include="Assets\Lobby\Scripts\NetworkLobbyController.cs" />
      <Compile Include="Assets\Lobby\Scripts\NetworkUIController.cs" />
      <Compile Include="Assets\Lobby\Scripts\WatchedDictionary.cs" />
      <Compile Include="Assets\Lobby\Scripts\WatchedNetworkDiscovery.cs" />
