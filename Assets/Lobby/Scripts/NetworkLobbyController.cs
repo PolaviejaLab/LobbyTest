@@ -21,6 +21,11 @@ public class NetworkLobbyController : MonoBehaviour
 	
 	void Start() 
     {
+        if(clientList == null) {
+            Debug.LogWarning("clientList is not assigned.");
+            return;
+        }
+
         GameObject networkManagerObject = GameObject.Find("NetworkManager");
 
         if(networkManagerObject == null) {
@@ -37,6 +42,7 @@ public class NetworkLobbyController : MonoBehaviour
 
         networkManager.ServerConnect.AddListener((NetworkConnection conn) => RefreshClientList());
         networkManager.ServerDisconnect.AddListener((NetworkConnection conn) => RefreshClientList());
+
         RefreshClientList();
 	}
 	
