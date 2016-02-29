@@ -22,10 +22,11 @@ public class ListBox : MonoBehaviour
     public Color textColor;
     public Color backgroundColor;
 
-
     public void Start()
     {
-        items.OnChanged += new WatchedDictionary<string, string>.OnChangedHandler((object sender) => {
+        Debug.Log(items);
+        Debug.Log(items.OnChanged);
+        items.OnChanged.AddListener(() => {
             RebuildList();
         });
     }
@@ -36,6 +37,7 @@ public class ListBox : MonoBehaviour
      */
     private Transform GetContentTransform()
     {
+        Debug.Log(this);
         Transform viewport = this.transform.FindChild("Viewport");
         Transform content = viewport.FindChild("Content");
 

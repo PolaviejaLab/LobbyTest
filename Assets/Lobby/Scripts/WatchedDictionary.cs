@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,17 +9,16 @@ using System.Collections.Generic;
  * Dictionary that fires an event when items are being inserted or deleted.
  */
 public class WatchedDictionary<TKey, TValue>: IDictionary<TKey, TValue>
-{
-    public delegate void OnChangedHandler(object sender);
+{    
+    public UnityEvent OnChanged = new UnityEvent();
 
     private Dictionary<TKey, TValue> items = new Dictionary<TKey, TValue>();
 
-    public event OnChangedHandler OnChanged;
+
 
     private void InvokeOnChanged() 
     {
-        if(OnChanged != null)
-            OnChanged(this);
+        OnChanged.Invoke();
     }
 
     /*******************************

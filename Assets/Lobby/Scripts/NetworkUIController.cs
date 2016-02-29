@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 using System.Collections;
 
 
-
 public class NetworkUIController : MonoBehaviour 
 {
     public WatchedNetworkManager networkManager;
@@ -24,7 +23,6 @@ public class NetworkUIController : MonoBehaviour
     // Server panel
     [Header("Server")]
     public InputField experimentName;
-    public ListBox clientList;
     public Button startButton;
 
 
@@ -46,9 +44,8 @@ public class NetworkUIController : MonoBehaviour
                 networkDiscovery.broadcastData = experimentName.text;
 
             //Debug.Log("HostId: " + networkDiscovery.hostId);
-            networkDiscovery.StartAsServer();
-
-            networkManager.StartHost();
+            //networkDiscovery.StartAsServer();
+            //networkManager.StartHost();
         } else {
             networkDiscovery.broadcastData = "Client";
             networkDiscovery.StartAsClient();
@@ -65,29 +62,15 @@ public class NetworkUIController : MonoBehaviour
     }
 
 
-    void RefreshClientList()
-    {
-        clientList.items.Clear();
-        foreach(var _conn in networkManager.connections) {
-            if(_conn.address == "localServer") continue;
-
-            if(_conn.address == "localClient")
-                clientList.items.Add("localClient", "Local client");
-            else
-                clientList.items.Add(_conn.address, _conn.address);
-        }
-    }
-
-
-	void Start () {
+    void Start () {
         #if UNITY_EDITOR
             isServer.isOn = false;
         #else
             isServer.isOn = true;
         #endif
 
-        networkManager.ServerConnect += (NetworkConnection conn) => RefreshClientList();
-        networkManager.ServerDisconnect += (NetworkConnection conn) => RefreshClientList();
+        //networkManager.ServerConnect += (NetworkConnection conn) => RefreshClientList();
+        //networkManager.ServerDisconnect += (NetworkConnection conn) => RefreshClientList();
 
         connectButton.onClick.AddListener(() => {
             Debug.Log("Click..." + serverList.selectedItem);
@@ -101,12 +84,18 @@ public class NetworkUIController : MonoBehaviour
             }
         });
 
-        networkDiscovery.OnNewServer += (sender, fromAddress, data) => {
+        startButton.onClick.AddListener(() => {
+            networkDiscovery.StartAsServer();
+            networkManager.StartHost();
+        });
+
+        networkDiscovery.OnNewServer.AddListener((fromAddress, data) => {
+            Debug.Log("Got server...");
             serverList.items.Clear();
             serverList.items.Add(
                 fromAddress,
                 data);
-        };
+        });
 
         networkDiscovery.useNetworkManager = false;
         networkDiscovery.Initialize();
@@ -117,5 +106,9 @@ public class NetworkUIController : MonoBehaviour
         isServer.onValueChanged.AddListener((v) => { ShowPanel(); Reinitialize(); });
         experimentName.onValueChanged.AddListener((v) => Reinitialize());
 	}
-    	
+
+    void OnDestroy()
+    {
+        //networkDiscovery.OnNewServer -= 
+    }
 }

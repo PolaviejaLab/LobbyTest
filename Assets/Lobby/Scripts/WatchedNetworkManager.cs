@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 using System.Collections;
 using System.Collections.Generic;
 
+public class ServerConnectEvent: UnityEvent<NetworkConnection>
+{
+}
+
+public class ServerDisconnectEvent: UnityEvent<NetworkConnection>
+{
+}
+
 public class WatchedNetworkManager : NetworkManager 
 {
-    public delegate void ServerConnectHandler(NetworkConnection conn);
-    public delegate void ServerDisconnectHandler(NetworkConnection conn);
-
-    public event ServerConnectHandler ServerConnect;
-    public event ServerDisconnectHandler ServerDisconnect;
+    public ServerConnectEvent ServerConnect = new ServerConnectEvent();
+    public ServerDisconnectEvent ServerDisconnect = new ServerDisconnectEvent();
 
     public List<NetworkConnection> connections = new List<NetworkConnection>();
 
@@ -19,15 +25,13 @@ public class WatchedNetworkManager : NetworkManager
         base.OnServerConnect(conn);
 
         connections.Add(conn);
-        if(ServerConnect != null)
-            ServerConnect(conn);
+        ServerConnect.Invoke(conn);
     }
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         connections.Remove(conn);
-        if(ServerDisconnect != null)
-            ServerDisconnect(conn);
+        ServerDisconnect.Invoke(conn);
 
         base.OnServerDisconnect(conn);
     }
