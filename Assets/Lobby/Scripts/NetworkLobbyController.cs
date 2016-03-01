@@ -1,21 +1,48 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 
-public class NetworkLobbyController : MonoBehaviour 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+[Serializable]
+public class ClientList : List<string> { }
+
+
+public class NetworkLobbyController : NetworkBehaviour
 {
     public ListBox clientList;
     private WatchedNetworkManager networkManager;
 
 
-    void RefreshClientList()
+    [ClientRpc]
+    void RpcUpdateClientList(string[] addresses, string[] captions)
+    {
+        clientList.items.Clear();
+        for(var i = 0; i < captions.Length; i++) {
+            clientList.items.Add(addresses[i], captions[i]);
+        }
+    }
+
+
+    void SendClientListUpdate()
     {
         if(networkManager == null || clientList == null) return;
+        if(!isServer) { return; }
 
-        clientList.items.Clear();
-        foreach(var item in networkManager.connections) {
-            clientList.items.Add(item.address, item.address);
+        var numItems = networkManager.connections.Count;
+
+        string[] addresses = new string[numItems];
+        string[] captions = new string[numItems];
+
+        for(var i = 0; i < numItems; i++) {
+            NetworkConnection connection = networkManager.connections[i];
+
+            addresses[i] = connection.address;
+            captions[i] = connection.address;
         }
+
+        RpcUpdateClientList(addresses, captions);
     }
 
 	
@@ -40,10 +67,10 @@ public class NetworkLobbyController : MonoBehaviour
             return;
         }
 
-        networkManager.ServerConnect.AddListener((NetworkConnection conn) => RefreshClientList());
-        networkManager.ServerDisconnect.AddListener((NetworkConnection conn) => RefreshClientList());
+        networkManager.ServerConnect.AddListener((NetworkConnection conn) => SendClientListUpdate());
+        networkManager.ServerDisconnect.AddListener((NetworkConnection conn) => SendClientListUpdate());
 
-        RefreshClientList();
+        SendClientListUpdate();
 	}
 	
 

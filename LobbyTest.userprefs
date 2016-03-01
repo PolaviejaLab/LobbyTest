@@ -1,12 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lobby\Scripts\ListBox.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lobby\Scripts\SerializableDictionary.cs">
     <Files>
-      <File FileName="Assets\Lobby\Scripts\NetworkUIController.cs" Line="86" Column="9" />
-      <File FileName="Assets\Lobby\Scripts\NetworkLobbyController.cs" Line="39" Column="102" />
-      <File FileName="Assets\Lobby\Scripts\WatchedNetworkDiscovery.cs" Line="12" Column="1" />
-      <File FileName="Assets\Lobby\Scripts\ListBox.cs" Line="46" Column="8" />
-      <File FileName="Assets\Lobby\Scripts\WatchedNetworkManager.cs" Line="25" Column="1" />
+      <File FileName="Assets\Lobby\Scripts\WatchedDictionary.cs" Line="13" Column="52" />
+      <File FileName="Assets\Lobby\Scripts\NetworkUIController.cs" Line="51" Column="1" />
+      <File FileName="Assets\Lobby\Scripts\NetworkLobbyController.cs" Line="30" Column="1" />
+      <File FileName="Assets\Lobby\Scripts\WatchedNetworkDiscovery.cs" Line="15" Column="21" />
+      <File FileName="Assets\Lobby\Scripts\ListBox.cs" Line="28" Column="36" />
+      <File FileName="Assets\Lobby\Scripts\WatchedNetworkManager.cs" Line="10" Column="30" />
+      <File FileName="Assets\Lobby\Scripts\SerializableDictionary.cs" Line="5" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

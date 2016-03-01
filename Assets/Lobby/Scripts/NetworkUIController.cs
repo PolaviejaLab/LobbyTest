@@ -30,7 +30,7 @@ public class NetworkUIController : MonoBehaviour
     {
         //Debug.Log("Reinitialize");
 
-        Debug.Log(networkDiscovery.hostId);
+        //Debug.Log(networkDiscovery.hostId);
         if(networkDiscovery.hostId != -1 || networkDiscovery.running) {
             //Debug.Log("Stopping broadcast...");
             networkDiscovery.StopBroadcast();

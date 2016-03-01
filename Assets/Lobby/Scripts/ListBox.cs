@@ -24,8 +24,6 @@ public class ListBox : MonoBehaviour
 
     public void Start()
     {
-        Debug.Log(items);
-        Debug.Log(items.OnChanged);
         items.OnChanged.AddListener(() => {
             RebuildList();
         });
@@ -37,7 +35,6 @@ public class ListBox : MonoBehaviour
      */
     private Transform GetContentTransform()
     {
-        Debug.Log(this);
         Transform viewport = this.transform.FindChild("Viewport");
         Transform content = viewport.FindChild("Content");
 
