@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 [Serializable] public class ServerConnectEvent: UnityEvent<NetworkConnection> { }
 [Serializable] public class ServerDisconnectEvent: UnityEvent<NetworkConnection> { }
-
+[Serializable] public class ServerReadyEvent: UnityEvent<NetworkConnection> { }
 
 
 public class WatchedNetworkManager : NetworkManager 
@@ -52,22 +52,29 @@ public class WatchedNetworkManager : NetworkManager
     // Called on the server when a client disconnects.
     [SerializeField] public ServerDisconnectEvent ServerDisconnect = new ServerDisconnectEvent();
 
+    // Called on the server when a client is ready.
+    [SerializeField] public ServerReadyEvent ServerReady = new ServerReadyEvent();
+
     public List<NetworkConnection> connections = new List<NetworkConnection>();
-
-
 
 
     public override void OnClientConnect(NetworkConnection conn)
     {
+        Debug.Log("WatchedNetworkManager::OnClientConnect");
         base.OnClientConnect(conn);
+        Debug.Log("Invoking WatchedNetworkManager::ClientConnect");
         ClientConnect.Invoke(conn);
+        Debug.Log("Invoked WatchedNetworkManager::ClientConnect");
     }
 
 
     public override void OnClientDisconnect(NetworkConnection conn)
     {
+        Debug.Log("WatchedNetworkManager::OnClientDisconnect");
         ClientDisconnect.Invoke(conn);
+        Debug.Log("Invoking WatchedNetworkManager::ClientDisconnect");
         base.OnClientDisconnect(conn);
+        Debug.Log("Invoked WatchedNetworkManager::ClientDisconnect");
     }
 
 
@@ -121,5 +128,11 @@ public class WatchedNetworkManager : NetworkManager
         ServerDisconnect.Invoke(conn);
 
         base.OnServerDisconnect(conn);
+    }
+
+    public override void OnServerReady(NetworkConnection conn)
+    {
+        base.OnServerReady(conn);
+        ServerReady.Invoke(conn);
     }
 }

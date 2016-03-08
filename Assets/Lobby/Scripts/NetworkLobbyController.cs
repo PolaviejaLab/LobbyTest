@@ -14,12 +14,28 @@ public class NetworkLobbyController : NetworkBehaviour
     public ListBox clientList;
     private WatchedNetworkManager networkManager;
 
+    private Dictionary<int, string> caption_map = new Dictionary<int, string>();
+
+    [Command]
+    void CmdSetClientName(int connectionId, string name)
+    {
+        Debug.Log("Set client name...");
+
+        if(caption_map[connectionId] == name)
+            return;
+
+        caption_map[connectionId] = name;
+        SendClientListUpdate();
+    }
+
 
     [ClientRpc]
     void RpcUpdateClientList(string[] addresses, string[] captions)
     {
+        Debug.Log("Updating client list, count: " + addresses.Length.ToString());
         clientList.items.Clear();
         for(var i = 0; i < captions.Length; i++) {
+            Debug.Log(">>" + addresses[i]);
             clientList.items.Add(addresses[i], captions[i]);
         }
     }
@@ -39,14 +55,19 @@ public class NetworkLobbyController : NetworkBehaviour
             NetworkConnection connection = networkManager.connections[i];
 
             addresses[i] = connection.address;
-            captions[i] = connection.address;
+
+            if(caption_map.ContainsKey(connection.connectionId))
+                captions[i] = caption_map[connection.connectionId];
+            else
+                captions[i] = "Unidentified client";
         }
 
+        Debug.Log("Sending client list: " + addresses.Length.ToString());
         RpcUpdateClientList(addresses, captions);
     }
 
 	
-	void Start() 
+	void Awake() 
     {
         if(clientList == null) {
             Debug.LogWarning("clientList is not assigned.");
@@ -69,9 +90,19 @@ public class NetworkLobbyController : NetworkBehaviour
 
         networkManager.ServerConnect.AddListener((NetworkConnection conn) => SendClientListUpdate());
         networkManager.ServerDisconnect.AddListener((NetworkConnection conn) => SendClientListUpdate());
+        networkManager.ServerReady.AddListener((NetworkConnection conn) => SendClientListUpdate());
 
-        SendClientListUpdate();
-	}
+        networkManager.ClientConnect.AddListener((NetworkConnection conn) => { 
+            Debug.Log("Client connected...");
+            CmdSetClientName(conn.connectionId, "Client " + conn.connectionId.ToString());
+        });
+    }
+
+    void Start()
+    {
+        if(isServer)
+            SendClientListUpdate();
+    }
 	
 
 	void Update () 

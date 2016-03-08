@@ -22,11 +22,14 @@ public class ListBox : MonoBehaviour
     public Color textColor;
     public Color backgroundColor;
 
-    public void Start()
+    public void Awake()
     {
         items.OnChanged.AddListener(() => {
             RebuildList();
         });
+
+        if(!template)
+            Debug.LogWarning("Template not set for ListBox: " + this.name);
     }
 
 
