@@ -1,8 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{8E9F9072-56DC-94E3-12E8-7EF47F056A95}") = "LobbyTest", "Assembly-CSharp-firstpass.csproj", "{37B200F0-282A-E237-F0B8-88BF39FB8BDD}"
-EndProject
 Project("{8E9F9072-56DC-94E3-12E8-7EF47F056A95}") = "LobbyTest", "Assembly-CSharp.csproj", "{2A60CB70-9E4B-7B50-6568-91742FE3D7B5}"
 EndProject
 Global
@@ -11,10 +9,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{37B200F0-282A-E237-F0B8-88BF39FB8BDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37B200F0-282A-E237-F0B8-88BF39FB8BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37B200F0-282A-E237-F0B8-88BF39FB8BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37B200F0-282A-E237-F0B8-88BF39FB8BDD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A60CB70-9E4B-7B50-6568-91742FE3D7B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2A60CB70-9E4B-7B50-6568-91742FE3D7B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A60CB70-9E4B-7B50-6568-91742FE3D7B5}.Release|Any CPU.ActiveCfg = Release|Any CPU

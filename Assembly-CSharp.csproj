@@ -45,25 +45,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Lobby\Scripts\ExperimentSelectionUI.cs" />
      <Compile Include="Assets\Lobby\Scripts\ListBox.cs" />
      <Compile Include="Assets\Lobby\Scripts\Network.cs" />
      <Compile Include="Assets\Lobby\Scripts\NetworkLobbyController.cs" />
      <Compile Include="Assets\Lobby\Scripts\NetworkUIController.cs" />
+     <Compile Include="Assets\Lobby\Scripts\PanelSwitcher.cs" />
+     <Compile Include="Assets\Lobby\Scripts\ServerBrowserUI.cs" />
      <Compile Include="Assets\Lobby\Scripts\WatchedDictionary.cs" />
      <Compile Include="Assets\Lobby\Scripts\WatchedNetworkDiscovery.cs" />
      <Compile Include="Assets\Lobby\Scripts\WatchedNetworkManager.cs" />
-     <None Include="Assets\Standard Assets\Network\Instruction.txt" />
-     <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
+     <Compile Include="Assets\Shared\Scripts\ExperimentSetup.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>E:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{37B200F0-282A-E237-F0B8-88BF39FB8BDD}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
