@@ -36,7 +36,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 164582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62c6dbf6d04a390499a91f0606c47334, type: 3}
+  m_Script: {fileID: 11500000, guid: f60bfefa018b11845a8ea8db707eaaa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   friendlyName: Multiplayer experiment

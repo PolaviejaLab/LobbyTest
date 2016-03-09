@@ -45,17 +45,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Lobby\Scripts\ExperimentSelectionUI.cs" />
-     <Compile Include="Assets\Lobby\Scripts\ListBox.cs" />
-     <Compile Include="Assets\Lobby\Scripts\Network.cs" />
-     <Compile Include="Assets\Lobby\Scripts\NetworkLobbyController.cs" />
-     <Compile Include="Assets\Lobby\Scripts\NetworkUIController.cs" />
-     <Compile Include="Assets\Lobby\Scripts\PanelSwitcher.cs" />
-     <Compile Include="Assets\Lobby\Scripts\ServerBrowserUI.cs" />
-     <Compile Include="Assets\Lobby\Scripts\WatchedDictionary.cs" />
-     <Compile Include="Assets\Lobby\Scripts\WatchedNetworkDiscovery.cs" />
-     <Compile Include="Assets\Lobby\Scripts\WatchedNetworkManager.cs" />
-     <Compile Include="Assets\Shared\Scripts\ExperimentSetup.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Base\ICEventfulNetworkDiscovery.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Base\ICEventfulNetworkManager.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Base\ICNetworkUtilities.cs" />
+     <Compile Include="Assets\Lobby\Scripts\ICExperimentBrowserController.cs" />
+     <Compile Include="Assets\Lobby\Scripts\ICExperimentSetupController.cs" />
+     <Compile Include="Assets\Lobby\Scripts\ICLobbyController.cs" />
+     <Compile Include="Assets\Lobby\Scripts\ICServerBrowserController.cs" />
+     <Compile Include="Assets\Shared\Scripts\ICDictionary.cs" />
+     <Compile Include="Assets\Shared\Scripts\ICExperiment.cs" />
+     <Compile Include="Assets\Shared\Scripts\ICListBox.cs" />
+     <Compile Include="Assets\Shared\Scripts\PanelSwitcher.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
