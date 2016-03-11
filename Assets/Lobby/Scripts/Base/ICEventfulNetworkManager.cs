@@ -60,21 +60,15 @@ public class ICEventfulNetworkManager : NetworkManager
 
     public override void OnClientConnect(NetworkConnection conn)
     {
-        Debug.Log("WatchedNetworkManager::OnClientConnect");
         base.OnClientConnect(conn);
-        Debug.Log("Invoking WatchedNetworkManager::ClientConnect");
         ClientConnect.Invoke(conn);
-        Debug.Log("Invoked WatchedNetworkManager::ClientConnect");
     }
 
 
     public override void OnClientDisconnect(NetworkConnection conn)
     {
-        Debug.Log("WatchedNetworkManager::OnClientDisconnect");
         ClientDisconnect.Invoke(conn);
-        Debug.Log("Invoking WatchedNetworkManager::ClientDisconnect");
         base.OnClientDisconnect(conn);
-        Debug.Log("Invoked WatchedNetworkManager::ClientDisconnect");
     }
 
 

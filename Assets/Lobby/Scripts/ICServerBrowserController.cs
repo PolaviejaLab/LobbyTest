@@ -40,8 +40,13 @@ public class ICServerBrowserController : MonoBehaviour
 
         if(networkDiscovery.servers.ContainsKey(serverList.selectedItem)) {
             var server = networkDiscovery.servers[serverList.selectedItem];
+            var parts = server.Data.Split(':');
 
-            experimentSetup.StartClient(server.Address, 0);
+            var address = parts[1];
+            int port;
+            int.TryParse(parts[2], out port);
+
+            experimentSetup.StartClient(address, port);
         }
     }
 

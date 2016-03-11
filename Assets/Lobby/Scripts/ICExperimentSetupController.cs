@@ -5,6 +5,11 @@ using System;
 using System.Collections;
 
 
+/**
+ * Keeps track of overall state of the experiment/lobby. Child controllers
+ * use this class to switch between screens and it is responsible for
+ * passing data between these controllers.
+ */
 public class ICExperimentSetupController: MonoBehaviour 
 {
     private enum State { ExperimentBrowser, ServerBrowser, ServerLobby, ClientLobby };
@@ -27,6 +32,8 @@ public class ICExperimentSetupController: MonoBehaviour
         panels[0] = experimentBrowser.gameObject;
         panels[1] = serverBrowser.gameObject;
         panels[2] = lobby.gameObject;
+
+        SwitchToPanel(experimentBrowser.gameObject);
     }
 
 
@@ -69,7 +76,7 @@ public class ICExperimentSetupController: MonoBehaviour
     public void StartServer(ICExperiment experiment)
     {
         SwitchToPanel(lobby.gameObject);
-        // lobby.startServer(experiment)
+        lobby.StartServer(experiment);
 
         currentState = State.ServerLobby;
     }
@@ -81,7 +88,7 @@ public class ICExperimentSetupController: MonoBehaviour
     public void StartClient(string address, int port)
     {
         SwitchToPanel(lobby.gameObject);
-        // lobby.StartClient(address, port);
+        lobby.StartClient(address, port);
 
         currentState = State.ClientLobby;
     }
@@ -94,12 +101,15 @@ public class ICExperimentSetupController: MonoBehaviour
     {
         if(!experiment) return;
 
+        lobby.StopAll();
+
         // Switch back to neutral panel
         SwitchToPanel(experimentBrowser.gameObject);
         currentState = State.ExperimentBrowser;
 
         // Change level
-        SceneManager.LoadScene(experiment.sceneName);
+        ICEventfulNetworkManager networkManager = ICNetworkUtilities.GetNetworkManager();
+        networkManager.ServerChangeScene(experiment.sceneName);
     }
 
 
@@ -108,6 +118,8 @@ public class ICExperimentSetupController: MonoBehaviour
      */
     public void Cancel()
     {
+        lobby.StopAll();
+
         switch(currentState) {
             case State.ExperimentBrowser: break;
             case State.ServerBrowser: StartExperimentBrowser(); break;
