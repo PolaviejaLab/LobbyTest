@@ -37,6 +37,14 @@ public class ICListBox : MonoBehaviour
     }
 
 
+    public void Start()
+    {
+        // Move to top of listbox
+        RectTransform content = GetContentTransform().GetComponent<RectTransform>();
+        content.localPosition = new Vector2(0, 0);
+    }
+
+
     /**
      * Returns the transform containing the listbox items.
      */
@@ -50,7 +58,7 @@ public class ICListBox : MonoBehaviour
 
 
     /**
-     * Look at children and 
+     * Refresh listbox contents
      */
     void RebuildList()
     {
@@ -134,7 +142,7 @@ public class ICListBox : MonoBehaviour
     {
         if(!template) return;
 
-        Transform copy = Instantiate(template);
+        Transform copy = Instantiate(template);       
 
         Vector3 position = template.localPosition;
         position.y = -verticalMargin - index * (interItemSpace + itemHeight);
