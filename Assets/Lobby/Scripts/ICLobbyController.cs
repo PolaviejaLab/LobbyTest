@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 using System;
@@ -12,8 +13,13 @@ public class ICLobbyController : MonoBehaviour
     public Button startButton;
     public Button cancelButton;
 
-    private bool isClient = false;
-    private bool isServer = false;
+    private LobbySync syncScript = null;
+
+    private bool _isClient = false;
+    private bool _isServer = false;   
+
+    public bool isClient { get { return _isClient; } }
+    public bool isServer { get { return _isServer; } }
 
 
     void Awake()
@@ -58,10 +64,11 @@ public class ICLobbyController : MonoBehaviour
         networkManager.ServerConnect.RemoveAllListeners();
         networkManager.ServerDisconnect.RemoveAllListeners();
 
-        networkManager.ClientConnect.AddListener((client) => { UpdateParticipantList(); });
+        networkManager.ClientConnect.AddListener((client) => { UpdateParticipantList(); if(syncScript) syncScript.UpdateClientList(); });
         networkManager.ClientDisconnect.AddListener((client) => { UpdateParticipantList(); });
-        networkManager.ServerConnect.AddListener((client) => { UpdateParticipantList(); });
+        networkManager.ServerConnect.AddListener((client) => { UpdateParticipantList(); if(syncScript) syncScript.UpdateClientList(); });
         networkManager.ServerDisconnect.AddListener((client) => { UpdateParticipantList(); });
+        networkManager.ServerReady.AddListener((client) => { UpdateParticipantList(); if(syncScript) syncScript.UpdateClientList(); });
 
         networkManager.StartHost();
 
@@ -80,7 +87,17 @@ public class ICLobbyController : MonoBehaviour
         startButton.onClick.RemoveAllListeners();
         startButton.onClick.AddListener(() => { experimentSetup.StartExperiment(experiment); });
 
-        isServer = true;
+        if(syncScript) {
+            //NetworkServer.Destroy(syncScript.gameObject);
+            Destroy(syncScript.gameObject);
+        }
+
+        // Create synchronization script
+        syncScript = GameObject.Instantiate(networkManager.spawnPrefabs[0]).GetComponent<LobbySync>();
+        NetworkServer.Spawn(syncScript.gameObject);
+        syncScript.transform.SetParent(gameObject.transform);
+
+        _isServer = true;
     }
 
 
@@ -103,7 +120,7 @@ public class ICLobbyController : MonoBehaviour
         startButton.enabled = false;
         startButton.onClick.RemoveAllListeners();
 
-        isClient = true;
+        _isClient = true;
     }
 
 
@@ -121,16 +138,16 @@ public class ICLobbyController : MonoBehaviour
         var networkDiscovery = ICNetworkUtilities.GetNetworkDiscovery();
         var networkManager = ICNetworkUtilities.GetNetworkManager();
 
-        if(isServer) {
+        if(_isServer) {
             networkManager.StopHost();
             if(networkDiscovery.isServer)
                 networkDiscovery.StopBroadcast();
-            isServer = false;
+            _isServer = false;
         }
 
         if(isClient) {
             networkManager.StopClient();
-            isClient = false;
+            _isClient = false;
         }
     }
 }
