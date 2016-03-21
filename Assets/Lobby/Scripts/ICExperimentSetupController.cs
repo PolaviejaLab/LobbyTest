@@ -101,7 +101,7 @@ public class ICExperimentSetupController: MonoBehaviour
     {
         if(!experiment) return;
 
-        lobby.StopAll();
+        lobby.StopBroadcast();
 
         // Switch back to neutral panel
         SwitchToPanel(experimentBrowser.gameObject);

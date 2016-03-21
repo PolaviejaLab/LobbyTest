@@ -107,6 +107,15 @@ public class ICLobbyController : MonoBehaviour
     }
 
 
+    public void StopBroadcast()
+    {
+        var networkDiscovery = ICNetworkUtilities.GetNetworkDiscovery();
+
+        if(networkDiscovery.isServer)
+            networkDiscovery.StopBroadcast();
+    }
+
+
     public void StopAll()
     {
         var networkDiscovery = ICNetworkUtilities.GetNetworkDiscovery();
