@@ -5,6 +5,17 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
+
+/**
+ * Handle lobby screen where participants wait for
+ * clients to connect before starting the experiment.
+ * There are two "versions" of this screen:
+ *  - On the server it calls StartHost on the NetworkManager
+ *    and will broadcast to the network. It also spawns a
+ *    ICLobbySync that synchronized the client lists.
+ *
+ *  - On the client it will connect to the host.
+ */
 public class ICLobbyController : MonoBehaviour 
 {
     public ICExperimentSetupController experimentSetup;
@@ -13,7 +24,7 @@ public class ICLobbyController : MonoBehaviour
     public Button startButton;
     public Button cancelButton;
 
-    private LobbySync syncScript = null;
+    private ICLobbySync syncScript = null;
 
     private bool _isClient = false;
     private bool _isServer = false;   
@@ -22,6 +33,19 @@ public class ICLobbyController : MonoBehaviour
     public bool isServer { get { return _isServer; } }
 
 
+    /**
+     * Register the ICLobbySync script as spawnable.
+     */
+    void Start()
+    {        
+        if(!syncScript) throw new Exception("syncScript field not set.");
+        ClientScene.RegisterPrefab(syncScript.gameObject);
+    }
+
+
+    /**
+     * Verify that all fields are set, and setup command listeners.
+     */
     void Awake()
     {
         if(!experimentSetup) throw new Exception("experimentSetup field not set.");
@@ -33,23 +57,26 @@ public class ICLobbyController : MonoBehaviour
     }
 
 
-    void OnEnable()
-    {
-    }
-
-
+    /**
+     * Update participant list - server side update
+     */
     void UpdateParticipantList()
     {
         var networkManager = ICNetworkUtilities.GetNetworkManager();
 
         Debug.Log("Updating list of participants, found: " + networkManager.connections.Count.ToString());
 
+        // Update server-side participant list
         participantList.items.Clear();
         for(var i = 0 ; i < networkManager.connections.Count; i++) {
             participantList.items.Add(
                 networkManager.connections[i].address,
                 networkManager.connections[i].address);
         }
+
+        // Invoke update function on clients
+        if(syncScript) 
+            syncScript.UpdateClientList();
     }
 
    
@@ -64,11 +91,11 @@ public class ICLobbyController : MonoBehaviour
         networkManager.ServerConnect.RemoveAllListeners();
         networkManager.ServerDisconnect.RemoveAllListeners();
 
-        networkManager.ClientConnect.AddListener((client) => { UpdateParticipantList(); if(syncScript) syncScript.UpdateClientList(); });
+        networkManager.ClientConnect.AddListener((client) => { UpdateParticipantList(); });
         networkManager.ClientDisconnect.AddListener((client) => { UpdateParticipantList(); });
-        networkManager.ServerConnect.AddListener((client) => { UpdateParticipantList(); if(syncScript) syncScript.UpdateClientList(); });
+        networkManager.ServerConnect.AddListener((client) => { UpdateParticipantList(); });
         networkManager.ServerDisconnect.AddListener((client) => { UpdateParticipantList(); });
-        networkManager.ServerReady.AddListener((client) => { UpdateParticipantList(); if(syncScript) syncScript.UpdateClientList(); });
+        networkManager.ServerReady.AddListener((client) => { UpdateParticipantList(); });
 
         networkManager.StartHost();
 
@@ -88,12 +115,12 @@ public class ICLobbyController : MonoBehaviour
         startButton.onClick.AddListener(() => { experimentSetup.StartExperiment(experiment); });
 
         if(syncScript) {
-            //NetworkServer.Destroy(syncScript.gameObject);
+            NetworkServer.Destroy(syncScript.gameObject);
             Destroy(syncScript.gameObject);
         }
 
         // Create synchronization script
-        syncScript = GameObject.Instantiate(networkManager.spawnPrefabs[0]).GetComponent<LobbySync>();
+        syncScript = GameObject.Instantiate(networkManager.spawnPrefabs[0]).GetComponent<ICLobbySync>();
         NetworkServer.Spawn(syncScript.gameObject);
         syncScript.transform.SetParent(gameObject.transform);
 
