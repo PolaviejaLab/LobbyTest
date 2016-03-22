@@ -24,6 +24,7 @@ public class ICLobbyController : MonoBehaviour
     public Button startButton;
     public Button cancelButton;
 
+    public ICLobbySync syncScriptPrefab;
     private ICLobbySync syncScript = null;
 
     private bool _isClient = false;
@@ -38,8 +39,8 @@ public class ICLobbyController : MonoBehaviour
      */
     void Start()
     {        
-        if(!syncScript) throw new Exception("syncScript field not set.");
-        ClientScene.RegisterPrefab(syncScript.gameObject);
+        if(!syncScriptPrefab) throw new Exception("syncScript field not set.");
+        ClientScene.RegisterPrefab(syncScriptPrefab.gameObject);
     }
 
 
@@ -60,7 +61,7 @@ public class ICLobbyController : MonoBehaviour
     /**
      * Update participant list - server side update
      */
-    void UpdateParticipantList()
+    private void UpdateParticipantList()
     {
         var networkManager = ICNetworkUtilities.GetNetworkManager();
 
@@ -79,24 +80,41 @@ public class ICLobbyController : MonoBehaviour
             syncScript.UpdateClientList();
     }
 
-   
 
-    public void StartServer(ICExperiment experiment)
+    /**
+     * Setup event listeners for the server-mode.
+     */
+    private void SetupServerEventListeners(ICEventfulNetworkManager networkManager)
     {
-        var networkDiscovery = ICNetworkUtilities.GetNetworkDiscovery();
-        var networkManager = ICNetworkUtilities.GetNetworkManager();
-
         networkManager.ClientConnect.RemoveAllListeners();
         networkManager.ClientDisconnect.RemoveAllListeners();
         networkManager.ServerConnect.RemoveAllListeners();
         networkManager.ServerDisconnect.RemoveAllListeners();
+        networkManager.ServerReady.RemoveAllListeners();
 
         networkManager.ClientConnect.AddListener((client) => { UpdateParticipantList(); });
         networkManager.ClientDisconnect.AddListener((client) => { UpdateParticipantList(); });
         networkManager.ServerConnect.AddListener((client) => { UpdateParticipantList(); });
         networkManager.ServerDisconnect.AddListener((client) => { UpdateParticipantList(); });
         networkManager.ServerReady.AddListener((client) => { UpdateParticipantList(); });
+    }
 
+   
+    /**
+     * Start the lobby in server-mode.
+     */
+    public void StartServer(ICExperiment experiment)
+    {
+        var networkDiscovery = ICNetworkUtilities.GetNetworkDiscovery();
+        var networkManager = ICNetworkUtilities.GetNetworkManager();
+
+        // Mark as server
+        _isServer = true;
+
+        // Update listeners
+        SetupServerEventListeners(networkManager);
+
+        // Start server and initialize broadcast
         networkManager.StartHost();
 
         networkDiscovery.Initialize();
@@ -110,47 +128,57 @@ public class ICLobbyController : MonoBehaviour
             throw new Exception("StartAsServer returned false in ICLobbyController.");
         }
 
+        // Enable start button
         startButton.enabled = true;
         startButton.onClick.RemoveAllListeners();
         startButton.onClick.AddListener(() => { experimentSetup.StartExperiment(experiment); });
 
+        // Remove old synchronization script
         if(syncScript) {
             NetworkServer.Destroy(syncScript.gameObject);
             Destroy(syncScript.gameObject);
         }
 
-        // Create synchronization script
-        syncScript = GameObject.Instantiate(networkManager.spawnPrefabs[0]).GetComponent<ICLobbySync>();
+        // Spawn synchronization script on the network
+        syncScript = GameObject.Instantiate(syncScriptPrefab).GetComponent<ICLobbySync>();
         NetworkServer.Spawn(syncScript.gameObject);
         syncScript.transform.SetParent(gameObject.transform);
-
-        _isServer = true;
     }
 
 
+    /**
+     * Start lobby in client-mode.
+     */
     public void StartClient(string address, int port)
     {
         var networkManager = ICNetworkUtilities.GetNetworkManager();
 
+        // Mark as client
+        _isClient = true;
+
         Debug.Log("Connecting to '" + address + "' at port " + port.ToString());
 
+        // Setup event listeners       
         networkManager.ClientError.RemoveAllListeners();
         networkManager.ClientError.AddListener((conn, code) => { Debug.LogError("Error while connecting to server, code: " + code.ToString()); });
 
         networkManager.ClientConnect.RemoveAllListeners();
         networkManager.ClientConnect.AddListener((conn) => { Debug.Log("Connecting to server..."); });
 
+        // Connect to server
         networkManager.networkAddress = address;
         networkManager.networkPort = port;
         networkManager.StartClient();
 
+        // Disable start button
         startButton.enabled = false;
         startButton.onClick.RemoveAllListeners();
-
-        _isClient = true;
     }
 
 
+    /**
+     * Stop broadcasting, used when starting the experiment.
+     */
     public void StopBroadcast()
     {
         var networkDiscovery = ICNetworkUtilities.GetNetworkDiscovery();
@@ -160,6 +188,9 @@ public class ICLobbyController : MonoBehaviour
     }
 
 
+    /**
+     * Stop everything, used when cancelling the lobby.
+     */
     public void StopAll()
     {
         var networkDiscovery = ICNetworkUtilities.GetNetworkDiscovery();
