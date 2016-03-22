@@ -51,8 +51,8 @@
      <Compile Include="Assets\Lobby\Scripts\ICExperimentBrowserController.cs" />
      <Compile Include="Assets\Lobby\Scripts\ICExperimentSetupController.cs" />
      <Compile Include="Assets\Lobby\Scripts\ICLobbyController.cs" />
+     <Compile Include="Assets\Lobby\Scripts\ICLobbySync.cs" />
      <Compile Include="Assets\Lobby\Scripts\ICServerBrowserController.cs" />
-     <Compile Include="Assets\LobbySync.cs" />
      <Compile Include="Assets\Shared\Scripts\ICDictionary.cs" />
      <Compile Include="Assets\Shared\Scripts\ICExperiment.cs" />
      <Compile Include="Assets\Shared\Scripts\ICListBox.cs" />
