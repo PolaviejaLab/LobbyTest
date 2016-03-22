@@ -1,16 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lobby\Scripts\ICExperimentSetupController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lobby\Scripts\ICLobbyController.cs">
     <Files>
-      <File FileName="Assets\Lobby\Scripts\Base\ICNetworkUtilities.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lobby\Scripts\ICExperimentSetupController.cs" Line="23" Column="29" />
-      <File FileName="Assets\Lobby\Scripts\ICServerBrowserController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lobby\Scripts\ICExperimentBrowserController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lobby\Scripts\ICLobbyController.cs" Line="81" Column="80" />
-      <File FileName="Assets\Lobby\Scripts\Base\ICEventfulNetworkManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Shared\Scripts\ICDictionary.cs" Line="1" Column="1" />
-      <File FileName="Assets\Shared\Scripts\ICListBox.cs" Line="1" Column="1" />
-      <File FileName="Assets\Shared\Scripts\ICExperiment.cs" Line="1" Column="1" />
+      <File FileName="Assets\Shared\Scripts\ICListBox.cs" Line="7" Column="1" />
+      <File FileName="Assets\Lobby\Scripts\ICLobbyController.cs" Line="71" Column="133" />
+      <File FileName="Assets\LobbySync.cs" Line="9" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

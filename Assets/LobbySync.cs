@@ -11,24 +11,32 @@ public class LobbySync : NetworkBehaviour {
 
     [Command]
     public void CmdUpdateClientList() {
-        Debug.LogError("Requested update of client list...");
-        RpcUpdateClientList();
+        ICLobbyController lobbyController = GameObject.Find("Lobby").GetComponent<ICLobbyController>();
+
+        RpcClearParticipantList();
+        foreach(var item in lobbyController.participantList.items) {
+            RpcAddParticipant(item.Key, item.Value);
+        }
     }
 
 
     [ClientRpc]
-    public void RpcUpdateClientList() {
-        // Find lobby object and controller
+    public void RpcClearParticipantList()
+    {
         ICLobbyController lobbyController = GameObject.Find("Lobby").GetComponent<ICLobbyController>();
 
-        Debug.LogError("Updating player list...");
-        Debug.LogError(lobbyController.isClient);
-
-        // The server maintains the master copy, so only update clients
-        if(lobbyController.isClient) {
+        if(lobbyController.isClient)
             lobbyController.participantList.items.Clear();
-            lobbyController.participantList.items.Add("Client", "Client");
-        }
+    }
+
+
+    [ClientRpc]
+    public void RpcAddParticipant(string key, string value)
+    {
+        ICLobbyController lobbyController = GameObject.Find("Lobby").GetComponent<ICLobbyController>();
+
+        if(lobbyController.isClient)
+            lobbyController.participantList.items.Add(key, value);
     }
 
 }
