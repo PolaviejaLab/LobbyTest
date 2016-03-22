@@ -2,15 +2,32 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class LobbySync : NetworkBehaviour {
 
+/**
+ * Script responsible for synchronizing the list of
+ * participants in the lobby across the network.
+ *
+ * It should be instantiated using NetworkServer.Spawn(),
+ * adding it to the scene manually will NOT work.
+ */
+public class ICLobbySync : NetworkBehaviour 
+{
+    /**
+     * Initiate refresh of participant list, should
+     * be called by the server.
+     */
     public void UpdateClientList()
     {
         CmdUpdateClientList();
     }
 
+
+    /**
+     * Transmits the participant list from
+     * the server to all individual clients.
+     */
     [Command]
-    public void CmdUpdateClientList() {
+    void CmdUpdateClientList() {
         ICLobbyController lobbyController = GameObject.Find("Lobby").GetComponent<ICLobbyController>();
 
         RpcClearParticipantList();
@@ -20,8 +37,12 @@ public class LobbySync : NetworkBehaviour {
     }
 
 
+    /**
+     * RPC invoked by server to clear
+     * the participant list on the clients.
+     */
     [ClientRpc]
-    public void RpcClearParticipantList()
+    void RpcClearParticipantList()
     {
         ICLobbyController lobbyController = GameObject.Find("Lobby").GetComponent<ICLobbyController>();
 
@@ -30,8 +51,12 @@ public class LobbySync : NetworkBehaviour {
     }
 
 
+    /**
+     * RPC invoked by the server to add an
+     * item to the participant list.
+     */
     [ClientRpc]
-    public void RpcAddParticipant(string key, string value)
+    void RpcAddParticipant(string key, string value)
     {
         ICLobbyController lobbyController = GameObject.Find("Lobby").GetComponent<ICLobbyController>();
 
