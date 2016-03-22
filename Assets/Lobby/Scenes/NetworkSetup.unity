@@ -2672,7 +2672,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 59.999996}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 246, y: 60}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1572172385
@@ -2984,6 +2984,7 @@ MonoBehaviour:
   participantList: {fileID: 623822121}
   startButton: {fileID: 1785385915}
   cancelButton: {fileID: 1006069535}
+  syncScriptPrefab: {fileID: 11485652, guid: ab7f0b328d2e2c84c8993f707771d741, type: 2}
 --- !u!1001 &1892206266
 Prefab:
   m_ObjectHideFlags: 0
@@ -3061,7 +3062,7 @@ MonoBehaviour:
   m_BroadcastInterval: 1000
   m_UseNetworkManager: 0
   m_BroadcastData: HELLO
-  m_ShowGUI: 1
+  m_ShowGUI: 0
   m_OffsetX: 0
   m_OffsetY: 0
   OnServerListUpdated:
@@ -3100,7 +3101,7 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
-  m_LogLevel: 0
+  m_LogLevel: 4
   m_PlayerPrefab: {fileID: 0}
   m_AutoCreatePlayer: 0
   m_PlayerSpawnMethod: 1
@@ -3626,35 +3627,35 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22491348, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22491348, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22491348, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22491348, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22419420, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22419420, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22415552, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22415552, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22449538, guid: 366a6b9465bc9ed4f86347fb21f1e0f3, type: 2}
       propertyPath: m_AnchoredPosition.y
